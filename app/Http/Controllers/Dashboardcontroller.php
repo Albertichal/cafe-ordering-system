@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class Dashboardcontroller extends Controller
@@ -12,7 +11,7 @@ class Dashboardcontroller extends Controller
     {
         $menus = Menu::all()->groupBy('category');
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Admin/Dashboard', [
             'menus' => $menus,
         ]);
     }
