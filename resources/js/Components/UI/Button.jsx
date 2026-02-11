@@ -1,11 +1,11 @@
-export default function Button({
-    type = 'button',
-    variant = 'primary',
-    children,
-    className = '',
+export default function Button({ 
+    type = 'button', 
+    variant = 'primary', 
+    children, 
+    className = '', 
     disabled = false,
     onClick,
-    ...props
+    ...props 
 }) {
     const variants = {
         primary: 'btn-primary',
@@ -19,8 +19,9 @@ export default function Button({
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`${variants[variant]} ${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+            className={`${variants[variant]} ${className} ${
+                disabled ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
             {...props}
         >
             {children}

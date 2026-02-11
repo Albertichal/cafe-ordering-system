@@ -1,10 +1,10 @@
-export default function Input({
-    type = 'text',
-    label,
-    error,
-    className = '',
+export default function Input({ 
+    type = 'text', 
+    label, 
+    error, 
+    className = '', 
     required = false,
-    ...props
+    ...props 
 }) {
     return (
         <div className="w-full">

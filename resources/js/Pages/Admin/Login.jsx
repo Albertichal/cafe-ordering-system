@@ -48,6 +48,18 @@ export default function Login({ status }) {
                             </div>
                         )}
 
+                        {/* General Error */}
+                        {Object.keys(errors).length > 0 && (
+                            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
+                                <strong>Login Gagal!</strong>
+                                <ul className="mt-1 list-disc list-inside">
+                                    {Object.values(errors).map((error, idx) => (
+                                        <li key={idx}>{error}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
                         <form onSubmit={submit} className="space-y-5">
                             {/* Email Input */}
                             <div>

@@ -1,59 +1,86 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AIController;
+use App\Http\Controllers\Menucontroller;
 use App\Http\Controllers\Dashboardcontroller;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\AIController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+
 
 /*
 |--------------------------------------------------------------------------
-| Guest Routes (Public)
+| Web Routes - Cafe Ichal
 |--------------------------------------------------------------------------
 */
 
-// Homepage - Guest Menu List
-Route::get('/', [MenuController::class, 'index'])->name('home');
+// ========================================
+// CUSTOMER ROUTES (Public)
+// ========================================
 
-// AI Chat Endpoint
-Route::post('/api/chat', [AIController::class, 'chat'])->name('ai.chat');
+// Homepage - Menu List (Customer ordering page)
+Route::get('/', [Menucontroller::class, 'index'])->name('menu.index');
 
-// Get Available Menus
-Route::get('/api/menus', [MenuController::class, 'getMenus'])->name('menus.api');
+// ========================================
+// AUTH ROUTES
+// ========================================
 
-// Create Order (Guest)
-Route::post('/api/orders', [OrderController::class, 'store'])->name('orders.store');
+// Login & Logout (Admin only)
+require __DIR__.'/auth.php';
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes (Protected)
-|--------------------------------------------------------------------------
-*/
+// ========================================
+// ADMIN ROUTES (Protected - Require Login)
+// ========================================
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    
-    // Dashboard
+Route::middleware(['auth'])->group(function () {
+    // Dashboard - Menu Management & Active Orders
     Route::get('/dashboard', [Dashboardcontroller::class, 'index'])->name('dashboard');
-
-    // Menu Management
-    Route::get('/admin/menus', [MenuController::class, 'adminIndex'])->name('admin.menus');
-    Route::post('/admin/menus', [MenuController::class, 'store'])->name('admin.menus.store');
-    Route::patch('/admin/menus/{menu}/status', [MenuController::class, 'updateStatus'])->name('admin.menus.status');
-    Route::put('/admin/menus/{menu}', [MenuController::class, 'update'])->name('admin.menus.update');
-    Route::delete('/admin/menus/{menu}', [MenuController::class, 'destroy'])->name('admin.menus.destroy');
-
-    // Order Management
-    Route::get('/api/orders/pending', [OrderController::class, 'getPendingOrders'])->name('orders.pending');
-    Route::patch('/api/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
-    Route::get('/api/orders/history', [OrderController::class, 'history'])->name('orders.history');
-
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+// ========================================
+// API ROUTES - Chatbot & Orders
+// ========================================
+
+// AI Chatbot
+Route::post('/api/chat', [AIController::class, 'chat']);
+
+// Menus - Get all menus (untuk chatbot & customer)
+Route::get('/api/menus', [Menucontroller::class, 'getMenus']);
+
+// Orders - Customer create order
+Route::post('/api/orders', [OrderController::class, 'store']);
+
+// Orders - Get pending orders (untuk admin dashboard)
+Route::get('/api/orders/pending', [OrderController::class, 'getPendingOrders']);
+
+// Orders - Update status (untuk admin)
+Route::patch('/api/orders/{order}/status', [OrderController::class, 'updateStatus']);
+
+// ========================================
+// ADMIN API ROUTES - Menu Management
+// ========================================
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // Menu CRUD
+    Route::post('/menus', [Menucontroller::class, 'store']);
+    Route::post('/menus/{menu}', [Menucontroller::class, 'update']); // POST because of file upload
+    Route::patch('/menus/{menu}/status', [Menucontroller::class, 'updateStatus']);
+    Route::delete('/menus/{menu}', [Menucontroller::class, 'destroy']);
+});
+
+// ========================================
+// REDIRECT AFTER LOGIN
+// ========================================
+
+// Redirect root to dashboard if already logged in
+Route::middleware(['auth'])->get('/home', function () {
+    return redirect()->route('dashboard');
+});
+
+
+
+
+
+
+
+
+
