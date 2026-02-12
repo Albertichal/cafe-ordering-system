@@ -8,13 +8,31 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
+        './resources/js/**/*.js',
     ],
 
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'Poppins', ...defaultTheme.fontFamily.sans],
+                serif: ['Playfair Display', 'Merriweather', 'serif'],
             },
+            colors: {
+                coffee: {
+                    dark: '#3E2723',
+                    medium: '#5D4037',
+                    light: '#8D6E63',
+                },
+                cream: {
+                    dark: '#D7CCC8',
+                    light: '#EFEBE9',
+                    white: '#FFF8E1',
+                },
+                accent: {
+                    orange: '#FF6F00',
+                    amber: '#FFA726',
+                }
+            }
         },
     },
 

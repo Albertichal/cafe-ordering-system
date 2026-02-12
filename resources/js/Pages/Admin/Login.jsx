@@ -30,7 +30,7 @@ export default function Login({ status }) {
                             <Coffee size={40} className="text-[#FF6F00]" />
                         </div>
                         <h1 className="text-3xl font-bold text-[#3E2723] mb-2 text-shadow-cafe">
-                            Cafe Ichal
+                            Cafe Amja
                         </h1>
                         <p className="text-[#8D6E63] font-medium">Admin Panel</p>
                     </div>

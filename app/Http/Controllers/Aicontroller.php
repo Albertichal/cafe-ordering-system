@@ -169,7 +169,7 @@ class AIController extends Controller
             }
 
             // Ultra-minimal prompt - trust the AI
-            $systemPrompt = "Kamu asisten Cafe Ichal yang friendly dan helpful.
+            $systemPrompt = "Kamu asisten Cafe AMJA yang friendly dan helpful.
 
 MENU:
 {$menuList}

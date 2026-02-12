@@ -1,9 +1,15 @@
+/* ========================================
+   CAFE ICHAL - CUSTOM THEME
+   Font imports HARUS di paling atas!
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 /* ======================================
-   CAFE ICHAL - CUSTOM THEME
    Color Palette: Cozy Coffee Browns
    ====================================== */
 
@@ -187,7 +193,12 @@
       opacity: .5;
     }
   }
-}
 
-/* ========== FONT IMPORTS ========== */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+  /* Prevent text selection (untuk logo yang muncul saat di-block) */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}

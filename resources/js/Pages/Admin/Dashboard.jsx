@@ -184,7 +184,7 @@ export default function Dashboard({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-bold text-2xl text-[#3E2723]">
-                    Dashboard Admin - Cafe Ichal
+                    Dashboard Admin - Cafe AMJA
                 </h2>
             }
         >

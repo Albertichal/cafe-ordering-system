@@ -12,7 +12,7 @@ export default function AdminLayout({ user, header, children }) {
                         <div className="flex items-center gap-4">
                             <Coffee size={28} className="text-[#FF6F00]" />
                             <div>
-                                <h1 className="text-xl font-bold">Cafe Ichal</h1>
+                                <h1 className="text-xl font-bold">Cafe AMJA</h1>
                                 <p className="text-xs text-[#D7CCC8]">Admin Panel</p>
                             </div>
                         </div>

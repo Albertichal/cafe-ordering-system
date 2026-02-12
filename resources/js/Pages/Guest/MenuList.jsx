@@ -166,8 +166,12 @@ export default function MenuList({ menus }) {
                     <Card className="p-8">
                         {/* Icon */}
                         <div className="text-center mb-6">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FF6F00] rounded-full mb-4">
-                                <UtensilsCrossed size={32} className="text-white" />
+                            <div className="inline-flex items-center justify-center mb-4">
+                                <img
+                                    src="/images/logo.png"
+                                    alt="Cafe Ichal"
+                                    className="h-40 w-40 object-contain"
+                                />
                             </div>
                             <h2 className="text-2xl font-bold text-[#3E2723] mb-2">
                                 Mulai Pesanan

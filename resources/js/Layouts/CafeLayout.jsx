@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Coffee, LogIn } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 
 export default function CafeLayout({ children, showLoginButton = true }) {
     return (
@@ -8,12 +8,24 @@ export default function CafeLayout({ children, showLoginButton = true }) {
             <nav className="navbar-cafe">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex justify-between items-center">
-                        {/* Logo & Brand */}
-                        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                            <Coffee size={32} className="text-[#FF6F00]" />
+                        {/* Logo & Brand - GANTI JADI LOGO CUSTOM */}
+                        <Link 
+                            href="/" 
+                            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                        >
+                            <img 
+                                src="/images/logo.png" 
+                                alt="Cafe Ichal Logo" 
+                                className="h-20 w-20 object-contain"
+                            />
+                            
                             <div>
-                                <h1 className="text-2xl font-bold tracking-wide">Cafe Ichal</h1>
-                                <p className="text-xs text-[#D7CCC8]">Pesan dengan AI Chatbot</p>
+                                <h1 className="text-2xl font-bold tracking-wide text-white">
+                                    Cafe AMJA
+                                </h1>
+                                <p className="text-xs text-[#D7CCC8]">
+                                    Aman Aja
+                                </p>
                             </div>
                         </Link>
 
@@ -40,7 +52,7 @@ export default function CafeLayout({ children, showLoginButton = true }) {
             <footer className="bg-[#3E2723] text-[#D7CCC8] py-6 mt-12">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-sm">
-                        © 2026 Cafe Ichal. Made with ☕ and ❤️
+                        © 2026 Cafe AMJA. Made with ☕ and ❤️
                     </p>
                 </div>
             </footer>
