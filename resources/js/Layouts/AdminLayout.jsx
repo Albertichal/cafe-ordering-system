@@ -17,7 +17,7 @@ export default function AdminLayout({ user, header, children }) {
                             </div>
                         </div>
 
-                        {/* Navigation */}
+                        {/* Navigasi */}
                         <div className="flex items-center gap-6">
                             <Link
                                 href={route('dashboard')}
@@ -47,7 +47,7 @@ export default function AdminLayout({ user, header, children }) {
                 </div>
             </nav>
 
-            {/* Header */}
+            {/* Awalan */}
             {header && (
                 <header className="bg-white shadow-sm border-b border-[#EFEBE9]">
                     <div className="max-w-7xl mx-auto px-6 py-6">
@@ -56,7 +56,7 @@ export default function AdminLayout({ user, header, children }) {
                 </header>
             )}
 
-            {/* Main Content */}
+            {/* Konten Utama */}
             <main className="max-w-7xl mx-auto px-6 py-8">
                 {children}
             </main>

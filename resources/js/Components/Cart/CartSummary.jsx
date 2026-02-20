@@ -19,7 +19,7 @@ export default function CartSummary({ items = [], onComplete, onRemoveItem }) {
 
     return (
         <Card className="p-6">
-            {/* Header */}
+            {/* Awalan */}
             <div className="flex items-center gap-2 mb-4 pb-4 border-b border-[#EFEBE9]">
                 <ShoppingCart size={20} className="text-[#FF6F00]" />
                 <h3 className="font-bold text-[#3E2723] text-lg">Pesanan Kamu</h3>
@@ -78,7 +78,7 @@ export default function CartSummary({ items = [], onComplete, onRemoveItem }) {
                     </span>
                 </div>
 
-                {/* Complete Order Button */}
+                {/* Tombol Selesai Order*/}
                 {onComplete && (
                     <Button
                         variant="accent"

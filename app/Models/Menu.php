@@ -18,25 +18,16 @@ class Menu extends Model
         'status',
     ];
 
-    /**
-     * Relationship: Menu has many OrderItems
-     */
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * Scope: Get only ready/available menus
-     */
     public function scopeAvailable($query)
     {
         return $query->where('status', 'ready');
     }
 
-    /**
-     * Scope: Get menus by category
-     */
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);

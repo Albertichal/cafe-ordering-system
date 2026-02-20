@@ -17,17 +17,11 @@ class OrderItem extends Model
         'price',
     ];
 
-    /**
-     * Relationship: OrderItem belongs to Order
-     */
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * Relationship: OrderItem belongs to Menu
-     */
     public function menu()
     {
         return $this->belongsTo(Menu::class);

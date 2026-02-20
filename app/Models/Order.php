@@ -16,33 +16,21 @@ class Order extends Model
         'status',
     ];
 
-    /**
-     * Relationship: Order has many OrderItems
-     */
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * Scope: Get pending orders
-     */
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
     }
 
-    /**
-     * Scope: Get processing orders
-     */
     public function scopeProcessing($query)
     {
         return $query->where('status', 'processing');
     }
 
-    /**
-     * Scope: Get completed orders
-     */
     public function scopeCompleted($query)
     {
         return $query->where('status', 'completed');

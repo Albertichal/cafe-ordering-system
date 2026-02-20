@@ -1,38 +1,10 @@
-/* ========================================
-   CAFE ICHAL - CUSTOM THEME
-   Font imports HARUS di paling atas!
-   ======================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* ======================================
-   Color Palette: Cozy Coffee Browns
-   ====================================== */
-
 @layer base {
-  :root {
-    /* Primary - Coffee Browns */
-    --coffee-dark: #3E2723;
-    --coffee-medium: #5D4037;
-    --coffee-light: #8D6E63;
-    
-    /* Secondary - Cream/Beige */
-    --cream-dark: #D7CCC8;
-    --cream-light: #EFEBE9;
-    --cream-white: #FFF8E1;
-    
-    /* Accent - Warm Orange */
-    --accent-orange: #FF6F00;
-    --accent-amber: #FFA726;
-    
-    /* Neutral */
-    --gray-dark: #4E342E;
-    --gray-medium: #795548;
-  }
 
   * {
     @apply border-gray-200;
@@ -50,7 +22,7 @@
 }
 
 @layer components {
-  /* ========== BUTTONS ========== */
+  /* tombol */
   .btn-primary {
     @apply bg-[#3E2723] text-white px-6 py-3 rounded-lg font-semibold 
            hover:bg-[#5D4037] active:scale-95 transition-all duration-200 
@@ -74,14 +46,14 @@
            hover:bg-red-600 active:scale-95 transition-all duration-200;
   }
 
-  /* ========== INPUTS ========== */
+  /* input */
   .input-cafe {
     @apply w-full px-4 py-3 bg-white border-2 border-[#D7CCC8] rounded-lg 
            focus:border-[#5D4037] focus:ring-2 focus:ring-[#5D4037]/20 
            outline-none transition-all placeholder:text-[#D7CCC8];
   }
 
-  /* ========== CARDS ========== */
+  /* kartu */
   .card-cafe {
     @apply bg-white rounded-xl shadow-lg border border-[#EFEBE9] 
            hover:shadow-xl transition-shadow duration-300;
@@ -93,7 +65,7 @@
            cursor-pointer;
   }
 
-  /* ========== BADGES ========== */
+  /* logo */
   .badge-ready {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold 
            bg-green-100 text-green-700;
@@ -114,7 +86,7 @@
            bg-blue-100 text-blue-700;
   }
 
-  /* ========== CHAT BUBBLES ========== */
+  /* chat bubble */
   .chat-bubble-user {
     @apply bg-[#FF6F00] text-white px-4 py-2 rounded-2xl rounded-tr-sm 
            max-w-[80%] shadow-md;
@@ -125,12 +97,12 @@
            max-w-[80%] shadow-md;
   }
 
-  /* ========== NAVBAR ========== */
+  /* navbar */
   .navbar-cafe {
     @apply bg-[#3E2723] text-white shadow-lg sticky top-0 z-50;
   }
 
-  /* ========== BACKGROUNDS ========== */
+  /* background */
   .bg-pattern-cafe {
     background-color: #FFF8E1;
     background-image: 
@@ -140,7 +112,7 @@
 }
 
 @layer utilities {
-  /* Custom scrollbar */
+  /* tustom scrollbar */
   .scrollbar-cafe::-webkit-scrollbar {
     width: 8px;
   }
@@ -159,12 +131,12 @@
     background: #5D4037;
   }
 
-  /* Text shadows for headings */
+  /* text shadows for headings */
   .text-shadow-cafe {
     text-shadow: 2px 2px 4px rgba(62, 39, 35, 0.1);
   }
 
-  /* Smooth fade-in animation */
+  /* tmooth fade-in animation */
   .fade-in {
     animation: fadeIn 0.5s ease-in;
   }
@@ -180,7 +152,7 @@
     }
   }
 
-  /* Pulse animation for active indicators */
+  /* pulse animation for active indicators */
   .pulse-cafe {
     animation: pulseCafe 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -194,7 +166,7 @@
     }
   }
 
-  /* Prevent text selection (untuk logo yang muncul saat di-block) */
+  /* prevent text selection (untuk logo yang muncul saat di-block) */
   .no-select {
     -webkit-user-select: none;
     -moz-user-select: none;

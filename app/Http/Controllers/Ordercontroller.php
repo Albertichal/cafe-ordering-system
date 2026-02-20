@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Store a new order
-     */
+    // Orderan Baru
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,12 +26,12 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            // Calculate total price
+            // Menghitung Total Harga
             $totalPrice = collect($validated['items'])->sum(function ($item) {
                 return $item['price'] * $item['quantity'];
             });
 
-            // Create order
+            // Buat Orderan 
             $order = Order::create([
                 'customer_name' => $validated['customer_name'],
                 'table_number' => $validated['table_number'],
@@ -40,7 +39,7 @@ class OrderController extends Controller
                 'status' => 'pending',
             ]);
 
-            // Create order items
+            // Buat Order Item
             foreach ($validated['items'] as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -69,9 +68,7 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Get all pending orders (untuk admin)
-     */
+    //Order Yang Tertunda
     public function getPendingOrders()
     {
         $orders = Order::with('orderItems.menu')
@@ -83,9 +80,7 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
-    /**
-     * Update order status
-     */
+    // Status Orderan
     public function updateStatus(Request $request, Order $order)
     {
         $validated = $request->validate([
@@ -101,9 +96,7 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Get order history
-     */
+    //History Order
     public function history()
     {
         $orders = Order::with('orderItems.menu')

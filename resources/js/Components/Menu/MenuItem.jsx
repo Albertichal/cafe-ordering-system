@@ -3,7 +3,7 @@ import { ImageIcon } from 'lucide-react';
 export default function MenuItem({ item, onClick, showActions = false, onEdit, onDelete, onToggleStatus }) {
     return (
         <div className={`card-menu p-4 ${item.status === 'sold' ? 'opacity-60 bg-gray-50' : ''}`}>
-            {/* Image */}
+            {/* Gambar */}
             <div className="mb-3 rounded-lg overflow-hidden bg-[#EFEBE9] aspect-square flex items-center justify-center">
                 {item.image ? (
                     <img
@@ -26,13 +26,13 @@ export default function MenuItem({ item, onClick, showActions = false, onEdit, o
                     Rp {item.price.toLocaleString('id-ID')}
                 </p>
 
-                {/* Status Badge */}
+                {/* Status */}
                 <div className="flex items-center justify-between">
                     <span className={item.status === 'ready' ? 'badge-ready' : 'badge-sold'}>
                         {item.status === 'ready' ? '✓ Ready' : '✗ Sold Out'}
                     </span>
 
-                    {/* Action Buttons (Admin Only) */}
+                    {/* Tombol AKsi (cmn atmin) */}
                     {showActions && (
                         <div className="flex gap-1">
                             <button
@@ -57,7 +57,7 @@ export default function MenuItem({ item, onClick, showActions = false, onEdit, o
                     )}
                 </div>
 
-                {/* Toggle Status Button (Admin) */}
+                {/* Toggle Tombol Status (Admin) */}
                 {showActions && onToggleStatus && (
                     <button
                         onClick={() => onToggleStatus(item)}
@@ -71,7 +71,7 @@ export default function MenuItem({ item, onClick, showActions = false, onEdit, o
                 )}
             </div>
 
-            {/* Customer Click Action */}
+            {/* Aksi Klik Customer */}
             {onClick && !showActions && (
                 <button
                     onClick={() => onClick(item)}

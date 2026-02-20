@@ -9,9 +9,8 @@ use Inertia\Inertia;
 
 class Menucontroller extends Controller
 {
-    /**
-     * Display a listing of menus (untuk guest)
-     */
+    //List Tampilan Menu
+    
     public function index()
     {
         $menus = Menu::all()->groupBy('category');
@@ -21,9 +20,8 @@ class Menucontroller extends Controller
         ]);
     }
 
-    /**
-     * Get all menus as JSON (untuk AI chatbot)
-     */
+    // Semua Menu
+
     public function getMenus()
     {
         $menus = Menu::all(); // Return all menus (ready & sold)
@@ -31,9 +29,8 @@ class Menucontroller extends Controller
         return response()->json($menus);
     }
 
-    /**
-     * Display menus for admin
-     */
+    // Tampilkan Menu Untuk Admin
+
     public function adminIndex()
     {
         $menus = Menu::all()->groupBy('category');
@@ -43,9 +40,8 @@ class Menucontroller extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created menu - WITH IMAGE UPLOAD
-     */
+    //
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -56,7 +52,7 @@ class Menucontroller extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // Handle image upload
+        // 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('menu-images', 'public');
             $validated['image'] = '/storage/' . $imagePath;
@@ -72,9 +68,8 @@ class Menucontroller extends Controller
         ]);
     }
 
-    /**
-     * Update menu status (ready/sold)
-     */
+    // Update menu status (ready/sold)
+     
     public function updateStatus(Request $request, Menu $menu)
     {
         $validated = $request->validate([
@@ -90,9 +85,8 @@ class Menucontroller extends Controller
         ]);
     }
 
-    /**
-     * Update menu - WITH IMAGE UPLOAD
-     */
+    // Update menu 
+
     public function update(Request $request, Menu $menu)
     {
         $validated = $request->validate([
@@ -103,9 +97,9 @@ class Menucontroller extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // Handle image upload
+        // 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
+            // 
             if ($menu->image && str_starts_with($menu->image, '/storage/')) {
                 $oldImagePath = str_replace('/storage/', '', $menu->image);
                 Storage::disk('public')->delete($oldImagePath);
@@ -124,12 +118,10 @@ class Menucontroller extends Controller
         ]);
     }
 
-    /**
-     * Remove menu
-     */
+    //Hapus Menu
     public function destroy(Menu $menu)
     {
-        // Delete image if exists
+        // 
         if ($menu->image && str_starts_with($menu->image, '/storage/')) {
             $imagePath = str_replace('/storage/', '', $menu->image);
             Storage::disk('public')->delete($imagePath);

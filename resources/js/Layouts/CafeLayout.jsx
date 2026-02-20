@@ -29,7 +29,7 @@ export default function CafeLayout({ children, showLoginButton = true }) {
                             </div>
                         </Link>
 
-                        {/* Login Button */}
+                        {/* Tombol Login */}
                         {showLoginButton && (
                             <Link
                                 href="/login"
@@ -43,12 +43,12 @@ export default function CafeLayout({ children, showLoginButton = true }) {
                 </div>
             </nav>
 
-            {/* Main Content */}
+            {/* Konten Utama */}
             <main className="max-w-7xl mx-auto px-6 py-8">
                 {children}
             </main>
 
-            {/* Footer */}
+            {/* Bawahan */}
             <footer className="bg-[#3E2723] text-[#D7CCC8] py-6 mt-12">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-sm">

@@ -21,12 +21,12 @@ export default function ChatBox({
     const recognitionRef = useRef(null);
     const silenceTimerRef = useRef(null);
 
-    // Auto scroll to bottom
+    // Auto Scroll Ke Bawah
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, interimTranscript]);
 
-    // Initialize Speech Recognition
+    // Initialisasi
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -100,7 +100,7 @@ export default function ChatBox({
         };
     }, []);
 
-    // Text-to-Speech
+    // Text Ke Perkataan
     const speak = (text) => {
         window.speechSynthesis.cancel();
 
@@ -178,7 +178,7 @@ export default function ChatBox({
         handleSendMessage();
     };
 
-    // Auto-speak AI responses
+    // Respon Bicara Otomatis AI
     useEffect(() => {
         if (messages.length > 0) {
             const lastMessage = messages[messages.length - 1];
@@ -190,7 +190,7 @@ export default function ChatBox({
 
     return (
         <div className="card-cafe flex flex-col h-[500px]">
-            {/* Header */}
+            {/* Awalan */}
             <div className="p-4 bg-[#3E2723] text-white rounded-t-xl">
                 <div className="flex items-center justify-between">
                     <div>
@@ -198,7 +198,7 @@ export default function ChatBox({
                         <p className="text-xs text-[#D7CCC8]">Chat untuk memesan</p>
                     </div>
 
-                    {/* Voice Toggle */}
+                    {/* Suara */}
                     <button
                         onClick={() => {
                             setIsVoiceMode(!isVoiceMode);
@@ -218,7 +218,7 @@ export default function ChatBox({
                     </button>
                 </div>
 
-                {/* Status Indicators */}
+                {/* Indikator Status */}
                 {(isListening || isSpeaking) && (
                     <div className="mt-2 text-xs flex items-center gap-3">
                         {isListening && (
@@ -237,7 +237,7 @@ export default function ChatBox({
                 )}
             </div>
 
-            {/* Messages */}
+            {/* Pesan */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-cafe">
                 {messages.map((msg, idx) => (
                     <ChatMessage
@@ -247,7 +247,7 @@ export default function ChatBox({
                     />
                 ))}
 
-                {/* Interim Transcript */}
+                {/* Interim */}
                 {isListening && interimTranscript && (
                     <div className="flex justify-end">
                         <div className="bg-[#FFA726]/30 text-[#3E2723] px-4 py-2 rounded-2xl rounded-tr-sm max-w-[80%] italic">
@@ -256,7 +256,7 @@ export default function ChatBox({
                     </div>
                 )}
 
-                {/* Quick Reply Buttons */}
+                {/* Tombol Jawab Cepat */}
                 {pendingDrink && !isLoading && (
                     <div className="flex justify-center fade-in">
                         <div className="bg-[#EFEBE9] border-2 border-[#D7CCC8] rounded-lg p-3">
@@ -303,7 +303,7 @@ export default function ChatBox({
             {/* Input */}
             <div className="p-4 border-t border-[#EFEBE9]">
                 <form onSubmit={handleSubmit} className="flex gap-2">
-                    {/* Voice Button */}
+                    {/* Tombol Suara */}
                     {isVoiceMode && (
                         <button
                             type="button"
@@ -336,7 +336,7 @@ export default function ChatBox({
                     </button>
                 </form>
 
-                {/* Stop Speaking */}
+                {/* Berhenti Bicara */}
                 {isSpeaking && (
                     <button
                         onClick={stopSpeaking}
@@ -346,7 +346,7 @@ export default function ChatBox({
                     </button>
                 )}
 
-                {/* Voice Hint */}
+                {/* Pesan Suara */}
                 {isVoiceMode && !isListening && !isSpeaking && (
                     <p className="text-xs text-[#8D6E63] text-center mt-2">
                         Klik mic untuk pesan dengan suara (auto-send setelah 3 detik diam)

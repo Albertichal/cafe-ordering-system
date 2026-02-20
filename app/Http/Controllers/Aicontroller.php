@@ -9,17 +9,16 @@ use Illuminate\Support\Facades\Log;
 
 class AIController extends Controller
 {
-    /**
-     * Drinks that need variant
-     */
+    //Varian Minuman
+     
     private $drinksNeedVariant = [
         'Thai Tea', 'Teh Obeng', 'Coklat', 'Kopi Hitam', 
         'Kopi Susu', 'Lemon Tea', 'Teh'
     ];
 
-    /**
-     * Context patterns untuk smart understanding
-     */
+    
+     //Pandai Mengerti
+     
     private $contextPatterns = [
         'weather_hot' => [
             'keywords' => ['panas', 'gerah', 'terik', 'kepanasan'],
@@ -47,9 +46,7 @@ class AIController extends Controller
         ],
     ];
 
-    /**
-     * Process chat message and return AI response
-     */
+    //
     public function chat(Request $request)
     {
         $validated = $request->validate([
@@ -62,7 +59,7 @@ class AIController extends Controller
         $currentCart = $validated['current_cart'] ?? [];
         $conversationHistory = $validated['conversation_history'] ?? [];
         
-        // Analyze context first
+        // Menganalisis Dahulu
         $context = $this->analyzeContext($userMessage, $conversationHistory);
         
         $response = $this->getAIResponse($userMessage, $currentCart, $conversationHistory, $context);
@@ -78,7 +75,7 @@ class AIController extends Controller
     }
 
     /**
-     * Analyze context from user message
+     * Analisis Konteks Dari Customer
      */
     private function analyzeContext($message, $history = [])
     {
@@ -98,7 +95,7 @@ class AIController extends Controller
             }
         }
 
-        // Analyze conversation flow
+        // Analisis Percakapan
         if (!empty($history)) {
             $lastAIMessage = $this->getLastAIMessage($history);
             if ($lastAIMessage) {
@@ -113,7 +110,7 @@ class AIController extends Controller
     }
 
     /**
-     * Get last AI message from history
+     * Mendapatkan Chat History
      */
     private function getLastAIMessage($history)
     {
@@ -125,24 +122,22 @@ class AIController extends Controller
         return null;
     }
 
-    /**
-     * Generate AI response using Groq API with context awareness
-     */
+    //
     private function getAIResponse($userMessage, $currentCart = [], $conversationHistory = [], $context = [])
     {
         try {
-            // Get available menus
+            // Tersedia Menu
             $menus = Menu::where('status', 'ready')->get();
 
-            // Build context-aware suggestions
+            // Membangun Konteks
             $suggestions = $this->buildContextSuggestions($context, $menus);
 
-            // Format menu list
+            // Format menu 
             $menuList = $menus->map(function ($menu) {
                 return "- {$menu->name} (Rp" . number_format($menu->price, 0, ',', '.') . ')';
             })->implode("\n");
 
-            // Format current cart
+            // Format Keranjang
             $cartList = '';
             if (!empty($currentCart)) {
                 $cartList = "\n\nPesanan saat ini:\n";
@@ -155,7 +150,7 @@ class AIController extends Controller
                 }
             }
 
-            // Build context hint for AI
+            //
             $contextHint = '';
             if (!empty($suggestions)) {
                 $contextHint = "\n\nContext hint:\n";
@@ -168,7 +163,7 @@ class AIController extends Controller
                 }
             }
 
-            // Ultra-minimal prompt - trust the AI
+            // 
             $systemPrompt = "Kamu asisten Cafe AMJA yang friendly dan helpful.
 
 MENU:
@@ -211,14 +206,14 @@ Response: {\"message\": \"Teh-nya mau hot, warm, atau ice?\", \"action\": \"ask_
 User: 'hot aja'
 Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": [{\"menu\": \"Teh\", \"quantity\": 1, \"custom\": \"hot\"}], \"auto_confirm\": true}";
 
-            // Call Groq API
+            // 
             $apiKey = env('GROQ_API_KEY');
 
             if (!$apiKey) {
                 throw new \Exception('GROQ_API_KEY tidak ditemukan');
             }
 
-            // Build messages with history
+            // 
             $messages = [
                 [
                     'role' => 'system',
@@ -226,7 +221,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
                 ]
             ];
 
-            // Add recent conversation history (last 8 messages)
+            // 
             $recentHistory = array_slice($conversationHistory, -8);
             foreach ($recentHistory as $msg) {
                 $messages[] = [
@@ -235,7 +230,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
                 ];
             }
 
-            // Add current user message
+            // 
             $messages[] = [
                 'role' => 'user',
                 'content' => $userMessage,
@@ -249,7 +244,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
                 ->post('https://api.groq.com/openai/v1/chat/completions', [
                     'model' => 'llama-3.3-70b-versatile',
                     'messages' => $messages,
-                    'temperature' => 0.7, // Higher for more natural responses
+                    'temperature' => 0.7, // Tinggi
                     'max_tokens' => 500,
                 ]);
 
@@ -264,7 +259,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
             $result = $response->json();
             $aiText = $result['choices'][0]['message']['content'] ?? '';
 
-            // Aggressive cleaning
+            // Membersihkan
             $aiText = preg_replace('/```json\s*|\s*```/', '', $aiText);
             if (preg_match('/\{.*\}/s', $aiText, $matches)) {
                 $aiText = $matches[0];
@@ -275,7 +270,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
             Log::info('AI Raw Response', ['raw' => $result['choices'][0]['message']['content'] ?? '']);
             Log::info('AI Cleaned Response', ['cleaned' => $aiText]);
 
-            // Parse JSON
+            //
             $parsed = json_decode($aiText, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
@@ -286,7 +281,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
                 throw new \Exception('Gagal parse JSON: ' . json_last_error_msg());
             }
 
-            // Remove emoji dan emoticon dari message
+            // 
             if (isset($parsed['message'])) {
                 $parsed['message'] = $this->removeEmojisAndEmoticons($parsed['message']);
             }
@@ -294,7 +289,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
             $action = $parsed['action'] ?? 'none';
             $autoConfirm = $parsed['auto_confirm'] ?? false;
 
-            // Handle actions
+            // Aksi
             switch ($action) {
                 case 'add':
                     return $this->handleAddItems($parsed, $menus, $autoConfirm);
@@ -341,9 +336,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         }
     }
 
-    /**
-     * Build context-aware suggestions
-     */
+    //
     private function buildContextSuggestions($contexts, $menus)
     {
         if (empty($contexts)) {
@@ -357,7 +350,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
 
             switch ($ctx['suggest']) {
                 case 'cold_drinks':
-                    // Suggest minuman dingin yang ada
+                    // minuman dingin yang ada
                     $coldDrinks = $menus->whereIn('name', ['Teh', 'latte'])->pluck('name')->toArray();
                     if (!empty($coldDrinks)) {
                         $suggestions[] = [
@@ -369,7 +362,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
                     break;
 
                 case 'hot_drinks':
-                    // Suggest minuman hangat yang ada
+                    // minuman hangat yang ada
                     $hotDrinks = $menus->whereIn('name', ['Kopi Hitam', 'Teh', 'latte'])->pluck('name')->toArray();
                     if (!empty($hotDrinks)) {
                         $suggestions[] = [
@@ -405,12 +398,11 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         return $suggestions;
     }
 
-    /**
-     * Remove all emojis AND emoticons from text
-     */
+    //Hapus semua emoji dari teks
+    
     private function removeEmojisAndEmoticons($text)
     {
-        // Remove all emoji using Unicode ranges
+        // 
         $text = preg_replace('/[\x{1F600}-\x{1F64F}]/u', '', $text);
         $text = preg_replace('/[\x{1F300}-\x{1F5FF}]/u', '', $text);
         $text = preg_replace('/[\x{1F680}-\x{1F6FF}]/u', '', $text);
@@ -423,7 +415,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         $text = preg_replace('/[\x{FE0F}]/u', '', $text);
         $text = preg_replace('/[\x{200D}]/u', '', $text);
         
-        // Remove text emoticons
+        // 
         $emoticons = [
             ':)', ':(', ':D', ':P', ';)', ':/', ':|', 'XD', 'xD',
             ':-)', ':-(', ':-D', ':-P', ';-)', ':-/', ':-|',
@@ -438,9 +430,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         return trim($text);
     }
 
-    /**
-     * Handle adding items
-     */
+    // Penambahan Item
     private function handleAddItems($parsed, $menus, $autoConfirm = false)
     {
         $detectedItems = [];
@@ -479,9 +469,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         ];
     }
 
-    /**
-     * Handle reducing quantity
-     */
+    // Kuantitas
     private function handleReduceItem($parsed, $currentCart)
     {
         $targetMenuName = $parsed['target_menu'] ?? null;
@@ -526,9 +514,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         ];
     }
 
-    /**
-     * Handle removing item
-     */
+    // Penghapusan Item
     private function handleRemoveItem($parsed, $currentCart)
     {
         $targetMenuName = $parsed['target_menu'] ?? null;
@@ -571,9 +557,8 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         ];
     }
 
-    /**
-     * Handle showing cart
-     */
+    // Keranjang Muncul
+     
     private function handleShowCart($currentCart, $aiMessage = null)
     {
         if (empty($currentCart)) {
@@ -611,9 +596,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
         ];
     }
 
-    /**
-     * Fallback response if AI fails (with context awareness)
-     */
+    //
     private function getFallbackResponse($userMessage, $menus, $context = [])
     {
         $userMessage = strtolower($userMessage);
@@ -625,7 +608,7 @@ Response: {\"message\": \"Siap, 1 Teh hot ya\", \"action\": \"add\", \"items\": 
             ];
         }
 
-        // Context-based fallback suggestions
+        // 
         if (!empty($context)) {
             foreach ($context as $ctx) {
                 if ($ctx['type'] === 'weather_cold') {
